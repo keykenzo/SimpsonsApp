@@ -22,7 +22,7 @@ struct ContentView: View {
             Character()
                 .tabItem {
                     Label("Character", systemImage: "person.2.fill")
-            }
+                }
             Episodes()
                 .tabItem {
                     Label("Episodes", systemImage: "tv.fill")
@@ -31,7 +31,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Location", systemImage: "map.fill")
                 }
-            
         }
     }
 }
