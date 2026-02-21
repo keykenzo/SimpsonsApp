@@ -32,6 +32,7 @@ struct ContentView: View {
                     Label("Location", systemImage: "map.fill")
                 }
         }
+        .tint(.yellow)
     }
 }
 
