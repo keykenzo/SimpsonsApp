@@ -10,52 +10,43 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @Query(sort: \Simpsons.id) private var characters: [Simpsons]
+    
+    @State private var currentProgress: Int = 0
+    let fetcher = FetchService()
+    
+    @State private var isDownloading = false
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
+        TabView {
+            Character()
+                .tabItem {
+                    Label("Character", systemImage: "person.2.fill")
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+            Episodes()
+                .tabItem {
+                    Label("Episodes", systemImage: "tv.fill")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+            Location()
+                .tabItem {
+                    Label("Location", systemImage: "map.fill")
                 }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+            
         }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: Simpsons.self, inMemory: true)
 }
+
+
+
+// Idade do personagem
+//                        Text("Idade: \(character.age != nil ? String(character.age!) : "Unknown")")
+//                        Text("Birthdate: \(character.birthdate != nil ? String(character.birthdate!) : "Unknown")")
+//                        Text(character.gender)
+//                        Text(character.occupation)
+//                        Text(character.phrases.first ?? "Nenhuma frase disponível")
+//                        Text(character.status)
