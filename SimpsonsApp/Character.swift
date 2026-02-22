@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  Character.swift
 //  SimpsonsApp
 //
 //  Created by Mario Duarte on 21/02/26.
@@ -17,10 +17,90 @@ struct Character: View {
     
     @State private var isDownloading = false
     
+    @State private var searchText = ""
+    
+    var filteredCharacters: [Simpsons] {
+        if searchText.isEmpty {
+            return characters
+        } else {
+            return characters.filter { $0.name.localizedStandardContains(searchText) }
+        }
+    }
+    
+    @FocusState private var isFocused: Bool
+    
     var body: some View {
         NavigationStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Characters")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    Image(systemName: "person.fill")
+                        .padding(.horizontal, 27)
+                        .imageScale(.large)
+                }
+            }
+            
+            HStack(spacing: 25) {
+                VStack {
+                    TextField("Search a Character", text: $searchText)
+                        .focused($isFocused)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 15)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray.opacity(0), lineWidth: 0)
+                        )
+                }
+                .padding(.leading)
+                .padding(.bottom)
+                
+                Button {
+                    searchText = ""
+                    isFocused = false
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .imageScale(.large)
+                        .foregroundColor(.gray.opacity(0.3))
+                }
+                .padding(.trailing, 16)
+                .padding(.bottom)
+                .offset(x: -10)
+            }
+                
+            VStack {
+                HStack {
+                    Button("All") {
+                        
+                    }
+                    
+                    Button("Family") {
+                        
+                    }
+                    
+                    Button("School") {
+                        
+                    }
+                    
+                    Button("Work") {
+                        
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.yellow)
+                .foregroundStyle(.black)
+            }
+            
             List {
-                ForEach(characters) { character in
+                ForEach(filteredCharacters) { character in
                     HStack(spacing: 15) {
                         Group {
                             if let data = character.imageData, let uiImage = UIImage(data: data) {
@@ -60,12 +140,10 @@ struct Character: View {
                                 .foregroundColor(.black)
                         }
                     }
-                    
                     .padding()
                     .background(Color(uiColor: .secondarySystemGroupedBackground))
                     .cornerRadius(12)
                     .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
-                    
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
@@ -73,7 +151,9 @@ struct Character: View {
                 .onDelete(perform: deleteItems)
             }
             .listStyle(.plain)
-            .navigationTitle("Characters")
+//            .searchable(text: $searchText, prompt: "Search a Character")
+//            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -96,7 +176,6 @@ struct Character: View {
         }
         
     }
-    
 
     private func getSimpsonsData(from id: Int) {
         Task {
@@ -148,7 +227,7 @@ struct Character: View {
     
     private func deleteItems(offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(characters[index])
+            modelContext.delete(filteredCharacters[index])
         }
     }
 }
