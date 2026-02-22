@@ -18,11 +18,13 @@ import SwiftUI
     var phrases: [String] //nem todos os personagens tem frases -> []
     var status: String
     var imageURL: String?
+    var charDescription: String?
     @Attribute(.externalStorage) var imageData: Data?
     
     enum CodingKeys: String, CodingKey {
         case id, name, age, birthdate, gender, occupation, phrases, status
         case portraitPath = "portraitPath"
+        case charDescription = "description"
     }
 
     required init(from decoder: Decoder) throws {
@@ -35,6 +37,7 @@ import SwiftUI
         self.occupation = try container.decode(String.self, forKey: .occupation)
         self.phrases = try container.decodeIfPresent([String].self, forKey: .phrases) ?? []
         self.status = try container.decode(String.self, forKey: .status)
+        self.charDescription = try container.decodeIfPresent(String.self, forKey: .charDescription)
         
         if let path = try container.decodeIfPresent(String.self, forKey: .portraitPath) {
             self.imageURL = "https://cdn.thesimpsonsapi.com/500\(String(describing: path))"
