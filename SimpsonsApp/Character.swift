@@ -19,13 +19,13 @@ struct Character: View {
     @State private var selectedFilter: String = "All"
     @State private var searchText = ""
     
-//    var filteredCharacters: [Simpsons] {
-//        if searchText.isEmpty {
-//            return characters
-//        } else {
-//            return characters.filter { $0.name.localizedStandardContains(searchText) }
-//        }
-//    }
+    //    var filteredCharacters: [Simpsons] {
+    //        if searchText.isEmpty {
+    //            return characters
+    //        } else {
+    //            return characters.filter { $0.name.localizedStandardContains(searchText) }
+    //        }
+    //    }
     
     @ViewBuilder
     func filterButton(title: String, filter: String) -> some View {
@@ -44,7 +44,7 @@ struct Character: View {
     var filteredCharacters: [Simpsons] {
         
         var list = characters
-    
+        
         switch selectedFilter {
         case "Family":
             list = list.filter { character in
@@ -122,7 +122,7 @@ struct Character: View {
                 .padding(.bottom)
                 .offset(x: -10)
             }
-                
+            
             VStack {
                 HStack(spacing: 12) {
                     filterButton(title: "All", filter: "All")
@@ -135,49 +135,57 @@ struct Character: View {
             
             List {
                 ForEach(filteredCharacters) { character in
-                    HStack(spacing: 15) {
-                        Group {
-                            if let data = character.imageData, let uiImage = UIImage(data: data) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                            } else {
-                                ProgressView()
+                    ZStack {
+                        NavigationLink(value: character) {
+                            EmptyView()
+                        }
+                        .opacity(0)
+                        
+                        HStack(spacing: 15) {
+                            Group {
+                                if let data = character.imageData, let uiImage = UIImage(data: data) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                } else {
+                                    ProgressView()
+                                }
+                            }
+                            .frame(width: 65, height: 65)
+                            .background(Color.gray.opacity(0.1))
+                            .clipShape(Circle())
+                            .overlay {
+                                Circle().stroke(.yellow, lineWidth: 3)
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(character.name)
+                                    .font(.headline)
+                                    .foregroundStyle(.primary)
+                                
+                                Text(character.occupation)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                    .lineLimit(1)
+                            }
+                            
+                            Spacer()
+                            
+                            ZStack {
+                                Circle()
+                                    .fill(.yellow.opacity(0.20))
+                                    .frame(width: 32, height: 32)
+                                
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(.black)
                             }
                         }
-                        .frame(width: 65, height: 65)
-                        .background(Color.gray.opacity(0.1))
-                        .clipShape(Circle())
-                        .overlay {
-                            Circle().stroke(.yellow, lineWidth: 3)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(character.name)
-                                .font(.headline)
-                            
-                            Text(character.occupation)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .lineLimit(1)
-                        }
-                        
-                        Spacer()
-                        
-                        ZStack {
-                            Circle()
-                                .fill(.yellow.opacity(0.2))
-                                .frame(width: 30, height: 30)
-                            
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 14, weight: .bold))
-                                .foregroundColor(.black)
-                        }
+                        .padding()
+                        .background(Color(uiColor: .secondarySystemGroupedBackground))
+                        .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
                     }
-                    .padding()
-                    .background(Color(uiColor: .secondarySystemGroupedBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
@@ -185,8 +193,12 @@ struct Character: View {
                 .onDelete(perform: deleteItems)
             }
             .listStyle(.plain)
-//            .searchable(text: $searchText, prompt: "Search a Character")
-//            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            .navigationDestination(for: Simpsons.self) { character in
+            CharacterDetail(character: character)
+            }
+            .listStyle(.plain)
+            //            .searchable(text: $searchText, prompt: "Search a Character")
+            //            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -210,10 +222,10 @@ struct Character: View {
         }
         
     }
-
+    
     private func getSimpsonsData(from id: Int) {
         Task {
-            for i in id...150 {
+            for i in id...35 {
                 do {
                     let fetchedSimpsonsData = try await fetcher.fetchSimpsons(i)
                     

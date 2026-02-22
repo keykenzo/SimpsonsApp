@@ -1,0 +1,51 @@
+{
+    "id": 1,
+    "age": 39,
+    "birthdate": "1956-05-12",
+    "description": "Homer Jay Simpson (born May 12, 1956) is a man from Springfield and the protagonist of the animated television series The Simpsons. He is a crude, ignorant, and slobbish individual, although he is fundamentally a good person and shows great caring and loyalty to his family, friends and on occasion, to those he barely knows or those he considers his enemies.",
+    "first_appearance_ep_id": 1,
+    "first_appearance_sh_id": 1,
+    "gender": "Male",
+    "name": "Homer Simpson",
+    "occupation": "Safety Inspector",
+    "phrases": [
+        "Doh!",
+        "Why you little...!",
+        "Woo-hoo!",
+        "Mmm... (food)... *drooling*",
+        "Stupid Flanders!",
+        "Shut up Flanders!",
+        "AAAAGHH!",
+        "Lisa, knock off that racket!",
+        "Uh oh, the boss.",
+        "Lets all go out for frosty chocolate milkshakes!",
+        "Whatever, Ill be at Moes.",
+        "I am evil Ho-mer! I am evil Ho-mer! I am evil Ho-mer!",
+        "Better them than me.",
+        "Better them than me... Oh wait, that was me.",
+        "Marge, my face hurts again!"
+    ],
+    "portrait_path": "/character/1.webp",
+    "status": "Alive",
+    "first_appearance_ep": {
+        "id": 1,
+        "airdate": "1989-12-17",
+        "description": "\"Simpsons Roasting on an Open Fire\" (also known as \"The Simpsons Christmas Special\") is the first episode of Season 1 of The Simpsons, as well as the series premiere/pilot episode of the series. It is the show's only episode to be aired in the 1980s. (Minus the original shorts.)",
+        "episode_number": 1,
+        "image_path": "/episode/1.webp",
+        "name": "Simpsons Roasting on an Open Fire",
+        "season": 1,
+        "synopsis": "When Mr. Burns announces that none of the workers will be getting Christmas bonuses and Marge reveals that she spent the extra Christmas gift money on getting Bart's \"Mother\" tattoo removed, Homer keeps his lack of funds for the holidays a secret and gets a job as a mall Santa."
+    },
+    "first_appearance_sh": {
+        "id": 1,
+        "airdate": "1987-04-19",
+        "description": "Good Night is the first Simpsons short and the first televised appearance of the Simpson family. It originally aired on The Tracey Ullman Show on April 19, 1987. This short was also used before the couch gag in the episode \"Looking for Mr. Goodbart\" to celebrate three decades of the Simpsons' televised debut, but only showed the scene with Marge singing \"Rock-a-bye baby\" to Maggie.",
+        "episode_number": 1,
+        "image_path": "/short/1.webp",
+        "name": "Good Night",
+        "season": 1,
+        "synopsis": "Marge and Homer Simpson, a married couple, say goodnight to their three kids, Bart, Lisa, and Maggie Simpson but all does not go to plan. Bart philosophically contemplates (first time and last) the wonders of the mind, Lisa hears Marge say \"don't let the bed bugs bite\" and fears that her bed bugs will eat her, and Maggie is traumatized by the lyrics of \"rock-a-bye-baby\"."
+    }
+}
+

@@ -8,9 +8,6 @@
 import SwiftData
 import SwiftUI
 
-import SwiftData
-import SwiftUI
-
 @Model class Simpsons: Decodable {
     @Attribute(.unique) var id: Int
     var name: String
