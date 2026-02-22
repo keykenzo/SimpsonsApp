@@ -16,14 +16,61 @@ struct Character: View {
     let fetcher = FetchService()
     
     @State private var isDownloading = false
-    
+    @State private var selectedFilter: String = "All"
     @State private var searchText = ""
     
+//    var filteredCharacters: [Simpsons] {
+//        if searchText.isEmpty {
+//            return characters
+//        } else {
+//            return characters.filter { $0.name.localizedStandardContains(searchText) }
+//        }
+//    }
+    
+    @ViewBuilder
+    func filterButton(title: String, filter: String) -> some View {
+        Button(title) {
+            selectedFilter = filter
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(selectedFilter == filter ? .simpsonsYellow : .white)
+        .foregroundStyle(.black)
+        .clipShape(RoundedRectangle(cornerRadius: 15)) // Garante que o botão siga o raio
+        .shadow(color: .black.opacity(selectedFilter == filter ? 0.15 : 0.05),
+                radius: selectedFilter == filter ? 8 : 3,
+                x: 0, y: 2)
+    }
+    
     var filteredCharacters: [Simpsons] {
+        
+        var list = characters
+    
+        switch selectedFilter {
+        case "Family":
+            list = list.filter { character in
+                let lastName = character.name.components(separatedBy: " ").last ?? ""
+                return characters.filter { $0.name.contains(lastName) }.count > 1
+            }
+            list = list.sorted {
+                let last0 = $0.name.components(separatedBy: " ").last ?? ""
+                let last1 = $1.name.components(separatedBy: " ").last ?? ""
+                return last0 < last1
+            }
+            
+        case "School":
+            list = list.filter { $0.occupation.localizedStandardContains("School") }
+            
+        case "Work":
+            list = list.filter { $0.occupation != "Unknown" }
+            
+        default:
+            break
+        }
+        
         if searchText.isEmpty {
-            return characters
+            return list
         } else {
-            return characters.filter { $0.name.localizedStandardContains(searchText) }
+            return list.filter { $0.name.localizedStandardContains(searchText) }
         }
     }
     
@@ -46,7 +93,7 @@ struct Character: View {
             
             HStack(spacing: 25) {
                 VStack {
-                    TextField("Search a Character", text: $searchText)
+                    TextField("Search Springfield residents...", text: $searchText)
                         .focused($isFocused)
                         .padding(.vertical, 12)
                         .padding(.horizontal, 15)
@@ -77,26 +124,13 @@ struct Character: View {
             }
                 
             VStack {
-                HStack {
-                    Button("All") {
-                        
-                    }
-                    
-                    Button("Family") {
-                        
-                    }
-                    
-                    Button("School") {
-                        
-                    }
-                    
-                    Button("Work") {
-                        
-                    }
+                HStack(spacing: 12) {
+                    filterButton(title: "All", filter: "All")
+                    filterButton(title: "Family", filter: "Family")
+                    filterButton(title: "School", filter: "School")
+                    filterButton(title: "Work", filter: "Work")
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.yellow)
-                .foregroundStyle(.black)
+                .padding(.horizontal)
             }
             
             List {
@@ -179,7 +213,7 @@ struct Character: View {
 
     private func getSimpsonsData(from id: Int) {
         Task {
-            for i in id...20 {
+            for i in id...150 {
                 do {
                     let fetchedSimpsonsData = try await fetcher.fetchSimpsons(i)
                     
@@ -212,7 +246,7 @@ struct Character: View {
                         
                         await MainActor.run {
                             currentProgress = character.id
-                            print("📸 Imagem salva: \(character.name)")
+                            print("📸 Imagem salva: \(character.id) \(character.name)")
                         }
                     }
                 }
@@ -231,6 +265,8 @@ struct Character: View {
         }
     }
 }
+
+
 
 
 
