@@ -13,8 +13,16 @@ struct Episodes: View {
     @Query(sort: \SimpsonsEpisodes.id) private var episodes: [SimpsonsEpisodes]
     
     let fetcher = FetchService()
-    
+        
     @State private var currentProgress: Int = 0
+    @State private var selectedSeason: Int = 1
+    
+    var filteredSeason: [SimpsonsEpisodes] {
+        
+        return episodes.filter { $0.season == selectedSeason}
+        .sorted { $0.id < $1.id }
+        
+    }
     
     var season: [Int] {
         Array(Set(episodes.map { $0.season })).sorted()
@@ -38,16 +46,18 @@ struct Episodes: View {
                     HStack(spacing: 10) {
                         ForEach(season, id: \.self) { seasonNumber in
                             Button {
-                                
+                                withAnimation(.spring()) {
+                                    selectedSeason = seasonNumber
+                                }
                             } label: {
                                 Text("Season \(seasonNumber)")
                                     .font(.headline.bold())
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(selectedSeason == seasonNumber ? Color.black : Color.simpsonsGrayHarder)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 15)
                                     .background {
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .fill(Color.simpsonsYellow)
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .fill(selectedSeason == seasonNumber ? Color.simpsonsYellow : Color.simpsonsGrayLighter)
                                     }
                             }
                         }
@@ -58,7 +68,7 @@ struct Episodes: View {
             
             ScrollView {
                 LazyVStack(spacing: 30) {
-                    ForEach(episodes) { episode in
+                    ForEach(filteredSeason) { episode in
                         VStack(alignment: .leading, spacing: 12) {
                             ZStack(alignment: .topLeading) {
                                 if let data = episode.imageEpisodeData, let uiImage = UIImage(data: data) {
@@ -139,7 +149,7 @@ struct Episodes: View {
     
     private func getEpisodesData(from id: Int) {
         Task {
-            for i in id...35 {
+            for i in id...70 {
                 do {
                     let fetchedSimpsonsEpisodes = try await fetcher.fetchSimpsonsEpisodes(i)
                     
