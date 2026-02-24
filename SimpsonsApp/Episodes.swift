@@ -139,15 +139,15 @@ struct Episodes: View {
                 .navigationDestination(for: SimpsonsEpisodes.self) { episode in
                     EpisodesDetail(episodes: episode)
                 }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            getEpisodesData(from: 1)
-                        } label: {
-                            Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
-                        }
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .topBarTrailing) {
+//                        Button {
+//                            getEpisodesData(from: 1)
+//                        } label: {
+//                            Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
+//                        }
+//                    }
+//                }
             }
         }
     }

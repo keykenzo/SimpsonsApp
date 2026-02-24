@@ -148,15 +148,15 @@ struct Location: View {
                     .padding(.vertical)
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        getLocationsData(from: 1)
-                    } label: {
-                        Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        getLocationsData(from: 1)
+//                    } label: {
+//                        Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
+//                    }
+//                }
+//            }
         }
     }
     

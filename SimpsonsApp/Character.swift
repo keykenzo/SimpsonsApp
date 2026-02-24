@@ -200,25 +200,25 @@ struct Character: View {
             //            .searchable(text: $searchText, prompt: "Search a Character")
             //            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        getSimpsonsData(from: 1)
-                    } label: {
-                        Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
-                    }
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
-                }
-            }
-            .overlay {
-                if characters.isEmpty {
-                    ContentUnavailableView("Sem dados",
-                                           systemImage: " person.3.sequence",
-                                           description: Text("Clique no ícone de nuvem para baixar os personagens."))
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        getSimpsonsData(from: 1)
+//                    } label: {
+//                        Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
+//                    }
+//                }
+//                ToolbarItem(placement: .topBarLeading) {
+//                    EditButton()
+//                }
+//            }
+//            .overlay {
+//                if characters.isEmpty {
+//                    ContentUnavailableView("Sem dados",
+//                                           systemImage: " person.3.sequence",
+//                                           description: Text("Clique no ícone de nuvem para baixar os personagens."))
+//                }
+//            }
         }
     }
     
