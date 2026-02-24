@@ -65,82 +65,87 @@ struct Episodes: View {
                     .padding()
                 }
             }
-            
             ScrollView {
-                LazyVStack(spacing: 30) {
+                LazyVStack(spacing: 20) {
                     ForEach(filteredSeason) { episode in
-                        VStack(alignment: .leading, spacing: 12) {
-                            ZStack(alignment: .topLeading) {
-                                if let data = episode.imageEpisodeData, let uiImage = UIImage(data: data) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 200)
-                                        .clipped()
-                                        .cornerRadius(10)
-                                    
-                                    HStack(spacing: 4) {
-                                        Text("S\(episode.season)")
-                                        Text("E\(episode.id)")
-                                    }
-                                    .font(.caption.bold())
-                                    .foregroundStyle(.black)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(Color.simpsonsYellow)
-                                    }
-                                    .padding(10)
-                                    
-                                } else {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.gray.opacity(0.2))
-                                        .frame(height: 200)
-                                        .overlay {
-                                            ProgressView()
+                        NavigationLink(value: episode) {
+                            VStack(alignment: .leading, spacing: 12) {
+                                ZStack(alignment: .topLeading) {
+                                    if let data = episode.imageEpisodeData, let uiImage = UIImage(data: data) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(maxWidth: .infinity)
+                                            .frame(height: 200)
+                                            .clipped()
+                                            .cornerRadius(10)
+                                        
+                                        HStack(spacing: 4) {
+                                            Text("S\(episode.season)")
+                                            Text("E\(episode.id)")
                                         }
+                                        .font(.caption.bold())
+                                        .foregroundStyle(.black)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(Color.simpsonsYellow)
+                                        }
+                                        .padding(10)
+                                        
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.gray.opacity(0.2))
+                                            .frame(height: 200)
+                                            .overlay {
+                                                ProgressView()
+                                            }
+                                    }
                                 }
-                            }
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(episode.name)
-                                    .font(.headline)
-                                    .fontWeight(.bold)
                                 
-                                if !(episode.airdate?.isEmpty ?? true) {
-                                    Text(episode.airdate!)
-                                        .font(.caption)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(episode.name)
+                                        .font(.headline)
+                                        .fontWeight(.bold)
+                                    
+                                    if !(episode.airdate?.isEmpty ?? true) {
+                                        Text(episode.airdate!)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    } else {
+                                        Text("No airdate available")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    
+                                    Text(episode.synopsis.isEmpty ? "No Synopsis for this episode" : episode.synopsis)
+                                        .font(.subheadline)
                                         .foregroundStyle(.secondary)
-                                } else {
-                                    Text("No airdate available")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                        .lineLimit(3)
                                 }
-                                
-                                Text(episode.synopsis)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(3)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 10)
                             }
-                            .padding(.horizontal, 10)
-                            .padding(.bottom, 10)
+                            .background(Color(uiColor: .systemBackground))
+                            .cornerRadius(10)
+                            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            .padding(.horizontal)
                         }
-                        .background(Color(uiColor: .systemBackground))
-                        .cornerRadius(10)
-                        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-                        .padding(.horizontal)
+                        .buttonStyle(.plain)
                     }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        getEpisodesData(from: 1)
-                    } label: {
-                        Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
+                .navigationDestination(for: SimpsonsEpisodes.self) { episode in
+                    EpisodesDetail(episodes: episode)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            getEpisodesData(from: 1)
+                        } label: {
+                            Label("Baixar Dados", systemImage: "icloud.and.arrow.down")
+                        }
                     }
                 }
             }
@@ -149,7 +154,7 @@ struct Episodes: View {
     
     private func getEpisodesData(from id: Int) {
         Task {
-            for i in id...70 {
+            for i in id...20 {
                 do {
                     let fetchedSimpsonsEpisodes = try await fetcher.fetchSimpsonsEpisodes(i)
                     

@@ -35,7 +35,7 @@ struct Character: View {
         .buttonStyle(.borderedProminent)
         .tint(selectedFilter == filter ? .simpsonsYellow : .white)
         .foregroundStyle(.black)
-        .clipShape(RoundedRectangle(cornerRadius: 15)) // Garante que o botão siga o raio
+        .clipShape(RoundedRectangle(cornerRadius: 15))
         .shadow(color: .black.opacity(selectedFilter == filter ? 0.15 : 0.05),
                 radius: selectedFilter == filter ? 8 : 3,
                 x: 0, y: 2)
@@ -194,7 +194,7 @@ struct Character: View {
             }
             .listStyle(.plain)
             .navigationDestination(for: Simpsons.self) { character in
-            CharacterDetail(character: character)
+                CharacterDetail(character: character)
             }
             .listStyle(.plain)
             //            .searchable(text: $searchText, prompt: "Search a Character")
@@ -220,7 +220,6 @@ struct Character: View {
                 }
             }
         }
-        
     }
     
     private func getSimpsonsData(from id: Int) {
@@ -271,17 +270,12 @@ struct Character: View {
         }
     }
     
-    
     private func deleteItems(offsets: IndexSet) {
         for index in offsets {
             modelContext.delete(filteredCharacters[index])
         }
     }
 }
-
-
-
-
 
 #Preview {
     Character()
