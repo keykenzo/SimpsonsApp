@@ -14,6 +14,7 @@ struct FetchService {
     }
     
     private let baseURL = URL(string: "https://thesimpsonsapi.com/api/characters")!
+    private let baseURLEpisode = URL(string: "https://thesimpsonsapi.com/api/episodes")!
     
     func fetchSimpsons(_ id: Int) async throws -> Simpsons {
         let fetchURL = baseURL.appending(path: String(id))
@@ -33,4 +34,24 @@ struct FetchService {
         
         return simpsonsData
     }
+    
+    func fetchSimpsonsEpisodes(_ id: Int) async throws -> SimpsonsEpisodes {
+        let fetchURL = baseURLEpisode.appending(path: String(id))
+        
+        let (data, response) = try await URLSession.shared.data(from: fetchURL)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw FetchError.badResponse
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let simpsonsDataEpisodes = try decoder.decode(SimpsonsEpisodes.self, from: data)
+        
+        print("Fetched Simpsons Episodes \(simpsonsDataEpisodes.id): \(simpsonsDataEpisodes.name.capitalized)")
+        
+        return simpsonsDataEpisodes
+    }
 }
+

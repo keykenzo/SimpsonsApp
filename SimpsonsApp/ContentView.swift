@@ -11,6 +11,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Simpsons.id) private var characters: [Simpsons]
+    @Query(sort: \SimpsonsEpisodes.id) private var episodes: [SimpsonsEpisodes]
     
     @State private var currentProgress: Int = 0
     let fetcher = FetchService()
@@ -25,7 +26,7 @@ struct ContentView: View {
                 }
             Episodes()
                 .tabItem {
-                    Label("Episodes", systemImage: "tv.fill")
+                    Label("Episodes", systemImage: "film")
                 }
             Location()
                 .tabItem {
@@ -38,7 +39,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Simpsons.self, inMemory: true)
+        .modelContainer(for: [Simpsons.self, SimpsonsEpisodes.self], inMemory: true)
 }
 
 
