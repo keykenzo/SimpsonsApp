@@ -15,7 +15,8 @@ struct SimpsonsAppApp: App {
         
         let schema = Schema([
             Simpsons.self,
-            SimpsonsEpisodes.self
+            SimpsonsEpisodes.self,
+            SimpsonsLocations.self
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

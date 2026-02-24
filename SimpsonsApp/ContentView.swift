@@ -39,7 +39,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [Simpsons.self, SimpsonsEpisodes.self], inMemory: true)
+        .modelContainer(for: [Simpsons.self, SimpsonsEpisodes.self, SimpsonsLocations.self],    inMemory: true)
 }
 
 
