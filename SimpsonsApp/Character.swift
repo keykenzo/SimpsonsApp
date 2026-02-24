@@ -235,7 +235,7 @@ struct Character: View {
                     print("Erro ao baixar ID \(i): \(error)")
                 }
             }
-            try? modelContext.save()
+            try modelContext.save()
             storeSprites()
         }
     }

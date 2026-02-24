@@ -10,19 +10,24 @@ import SwiftData
 
 @main
 struct SimpsonsAppApp: App {
+  
     var sharedModelContainer: ModelContainer = {
+        
         let schema = Schema([
-            Item.self,
+            Simpsons.self,
+            SimpsonsEpisodes.self
         ])
+        
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
+            // Se houver um erro crítico (como conflito de versão do banco), o app avisa aqui
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

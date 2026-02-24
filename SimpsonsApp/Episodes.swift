@@ -139,7 +139,7 @@ struct Episodes: View {
     
     private func getEpisodesData(from id: Int) {
         Task {
-            for i in id...75 {
+            for i in id...35 {
                 do {
                     let fetchedSimpsonsEpisodes = try await fetcher.fetchSimpsonsEpisodes(i)
                     
@@ -148,7 +148,7 @@ struct Episodes: View {
                     print("Erro ao baixar ID \(i): \(error)")
                 }
             }
-            try? modelContext.save()
+            try modelContext.save()
             storeEpisodesImage()
         }
     }
