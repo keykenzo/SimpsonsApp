@@ -55,6 +55,6 @@ Here you can see the app in action:
 
 ## 🚀 How to run the project
 
-1. Clone o repositório:
+1. Clone Repository:
    ```bash
    git clone https://github.com/keykenzo/SimpsonsApp.git 
