@@ -123,10 +123,10 @@ struct ContentView: View {
     }
     //1182+ characters
     private func fetchAllCharacters() async throws {
-        for i in 1...100 {
+        for i in 1...80 {
             let data = try await fetcher.fetchSimpsons(i)
             modelContext.insert(data)
-            await MainActor.run { currentProgress = (Double(i)/100) * 40.0  }
+            await MainActor.run { currentProgress = (Double(i)/80) * 40.0  }
         }
         try modelContext.save()
         
