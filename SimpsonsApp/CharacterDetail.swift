@@ -87,9 +87,9 @@ struct CharacterDetail: View {
                 }
                 .background(
                     RoundedRectangle(cornerRadius: 45)
-                    //                        .fill(Color(uiColor: .secondarySystemGroupedBackground))
-                        .fill(Color(.white))
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                          .fill(Color(uiColor: .secondarySystemGroupedBackground))
+//                        .fill(Color(.white))
+                        .shadow(color: .gray.opacity(0.1), radius: 8, x: 0, y: 4)
                 )
                 .padding(.horizontal)
                 .offset(y: -30)
