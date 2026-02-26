@@ -7,7 +7,7 @@ This is a Simpsons Encyclopedia App, a project that provides comprehensive infor
 
 ## 📸 Screenshots
 
-### Destaques
+### Highlights
 | Main Screen | Loading State | Character Details |
 |:---:|:---:|:---:|
 | <img src="SimpsonsApp/Screenshots/mainscreen.png" width="200"> | <img src="SimpsonsApp/Screenshots/loading.png" width="200"> | <img src="SimpsonsApp/Screenshots/characterdetail.png" width="200"> |
